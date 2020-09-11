@@ -45,6 +45,7 @@ return Socialite::with('streamlabs')->redirect();
 
 - ``id``
 - ``name``
+- ``email``
 
 ### Reference
 

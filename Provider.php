@@ -15,6 +15,11 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
+    protected $scopes = ['profile.basic'];
+
+    /**
+     * {@inheritdoc}
+     */
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
@@ -55,10 +60,18 @@ class Provider extends AbstractProvider
     {
         $user = $user['streamlabs'];
 
-        return (new User())->setRaw($user)->map([
+        $newUser = (new User())->setRaw($user)->map([
             'id'       => $user['id'],
+            'nickname' => $user['display_name'],
             'name'     => $user['display_name'],
+            'email'    => $user['email']
         ]);
+
+        if (isset($user['prime'])) {
+            $newUser['prime'] = $user['prime'];
+        }
+
+        return $newUser;
     }
 
     /**
